@@ -2,11 +2,11 @@
 
 mates = {
     "Number One": {
-        "google": [
-            "id",
-            "id",
-            "id"
-        ],
+        "google": {
+            "id": "token1",
+            "id": "token1",
+            "id": "token2"
+        },
         "webuntis": {
             "username": "user",
             "password": "pass",
@@ -18,9 +18,9 @@ mates = {
         }
     },
     "Number Two": {
-        "google": [
-            "id"
-        ]
+        "google": {
+            "id": "token3"
+        }
     },
     "Number Seven": {
         "webuntis": {
