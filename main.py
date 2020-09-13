@@ -1,6 +1,7 @@
 import datetime
 
 from config import mates
+from get_data_google import get_google
 from get_data_webuntis import get_webuntis
 
 if __name__ == '__main__':
@@ -9,6 +10,8 @@ if __name__ == '__main__':
 
     for mate in mates:
         if 'google' in mate:
-            pass
+            for calenderId in mates[mate]['google']:
+                get_google(calenderId, mates[mate]['google'][calenderId], start, end)
+
         if 'webuntis' in mate:
             get_webuntis(mate["webuntis"], start, end)
