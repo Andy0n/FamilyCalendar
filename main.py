@@ -1,6 +1,7 @@
 import datetime
 
 from config import mates
+from create_picture import create_picture
 from get_data_google import get_google
 from get_data_webuntis import get_webuntis
 
@@ -15,3 +16,5 @@ if __name__ == '__main__':
 
         if 'webuntis' in mate:
             get_webuntis(mate["webuntis"], start, end)
+
+    create_picture()
