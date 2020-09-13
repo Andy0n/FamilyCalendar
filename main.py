@@ -1,7 +1,7 @@
 import datetime
 
 from config import mates
-
+from get_data_webuntis import get_webuntis
 
 if __name__ == '__main__':
     start = datetime.datetime.utcnow().today().replace(hour=0, minute=0, second=0)
@@ -11,4 +11,4 @@ if __name__ == '__main__':
         if 'google' in mate:
             pass
         if 'webuntis' in mate:
-            pass
+            get_webuntis(mate["webuntis"], start, end)
