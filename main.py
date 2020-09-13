@@ -12,6 +12,29 @@ def join_data(data, data_to_add):
     return data
 
 
+def merge(events):
+    if not events:
+        return []
+
+    saved = list(events[0])
+
+    for st, en in sorted([sorted(t) for t in events]):
+        if st <= saved[1]:
+            saved[1] = max(saved[1], en)
+        else:
+            yield tuple(saved)
+            saved[0] = st
+            saved[1] = en
+
+    yield tuple(saved)
+
+
+def join_events(days):
+    for day in days:
+        days[day] = list(merge(days[day]))
+    return days
+
+
 if __name__ == '__main__':
     start = datetime.datetime.utcnow().today().replace(hour=0, minute=0, second=0)
     end = (start + datetime.timedelta(days=4)).replace(hour=23, minute=59, second=59)
@@ -31,6 +54,7 @@ if __name__ == '__main__':
         if 'webuntis' in mates[mate]:
             join_data(days, get_webuntis(mates[mate]["webuntis"], start, end))
 
+        join_events(days)
         data[mate] = days
 
     print(data)
