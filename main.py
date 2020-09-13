@@ -1,9 +1,9 @@
 import datetime
 
 from config import MATES
-from create_picture import create_picture
-from get_data_google import get_google
-from get_data_webuntis import get_webuntis
+from utils.create_picture import create_picture
+from utils.get_data_google import get_google
+from utils.get_data_webuntis import get_webuntis
 
 
 def join_data(data, data_to_add):
