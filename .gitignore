@@ -1,7 +1,7 @@
 config.py
-./tokens/*
-./assets/credentials.json
-./assets/fonts/*
+tokens/*
+assets/credentials.json
+assets/fonts/*
 
 # Created by .ignore support plugin (hsz.mobi)
 ### JetBrains template
