@@ -49,8 +49,8 @@ def get_google(calendarId, token_name, start, end):
         if 'description' in event and '#no#' in event['description']:
             continue
 
-        st = event['start'].get('dateTime', event['start'].get['date'])
-        en = event['end'].get('dateTime', event['end'].get['date'])
+        st = event['start'].get('dateTime', event['start'].get('date'))
+        en = event['end'].get('dateTime', event['end'].get('date'))
 
         # TODO: Beautify next if
         if ':' in st:
@@ -64,7 +64,11 @@ def get_google(calendarId, token_name, start, end):
         if st_time.day == en_time.day:
             st_ret = st_time.hour + st_time.minute / 60.0
             en_ret = en_time.hour + en_time.minute / 60.0
-            data[st_time.weekday()] += [(st_ret, en_ret)]
+
+            if st_time.weekday() in data:
+                data[st_time.weekday()] += [(st_ret, en_ret)]
+            else:
+                data[st_time.weekday()] = [(st_ret, en_ret)]
         else:
             # TODO: Beautify this part too
             day = start
@@ -77,12 +81,20 @@ def get_google(calendarId, token_name, start, end):
             while day.day != en_time.day:
                 if i == 5:
                     break
-                data[day.weekday()] += [(0, 23.999)]
+
+                if day.weekday() in data:
+                    data[day.weekday()] += [(0, 23.999)]
+                else:
+                    data[day.weekday()] = [(0, 23.999)]
+
                 day += datetime.timedelta(days=1)
                 i += 1
 
             if i != 5:
                 en_ret = en_time.hour + en_time.minute / 60.0
-                data[en_time.weekday()] += [(0, en_ret)]
+                if en_time.weekday() in data:
+                    data[en_time.weekday()] += [(0, en_ret)]
+                else:
+                    data[en_time.weekday()] = [(0, en_ret)]
 
     return data

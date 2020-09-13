@@ -48,8 +48,8 @@ if __name__ == '__main__':
             days[i % 7] = []
 
         if 'google' in mates[mate]:
-            for calenderId in mates[mate]['google']:
-                join_data(days, get_google(calenderId, mates[mate]['google'][calenderId], start, end))
+            for calendarId in mates[mate]['google']:
+                join_data(days, get_google(calendarId, mates[mate]['google'][calendarId], start, end))
 
         if 'webuntis' in mates[mate]:
             join_data(days, get_webuntis(mates[mate]["webuntis"], start, end))
