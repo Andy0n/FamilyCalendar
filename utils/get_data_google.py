@@ -15,7 +15,7 @@ google_datetime = '%Y-%m-%dT%H:%M:%S%z'
 def get_google(calendarId, token_name, start, end):
     creds = None
     token_path = f'./tokens/{token_name}.pickle'
-    creds_path = '../assets/credentials.json'
+    creds_path = './assets/credentials.json'
 
     if os.path.exists(token_path):
         with open(token_path, 'rb') as token:
