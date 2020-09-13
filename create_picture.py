@@ -17,7 +17,7 @@ def get_min_max(data):
     return min, max
 
 
-def drawBars(draw, data, user_count, min, max, col_width, row_height):
+def _draw_bars(draw, data, user_count, min, max, col_width, row_height):
     current_user = user_count - 1
 
     for name in data:
@@ -40,7 +40,7 @@ def drawBars(draw, data, user_count, min, max, col_width, row_height):
         current_user -= 1
 
 
-def drawGrid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height):
+def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height):
     for row in range(1, rows):
         x1 = 0
         y1 = row_height * row
@@ -92,7 +92,7 @@ def create_picture(data, width, height):
     col_width = width / cols
     row_height = height / rows
 
-    drawBars(draw, data, user_count, min, max, col_width, row_height)
-    drawGrid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height)
+    _draw_bars(draw, data, user_count, min, max, col_width, row_height)
+    _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height)
 
     return img
