@@ -33,12 +33,12 @@ def get_google(calendarId, token_name, start, end):
 
     service = build('calendar', 'v3', credentials=creds)
 
-    timeMin = start.isoformat + 'Z'
-    timeMax = end.isoformat + 'Z'
+    timeMin = start.isoformat() + 'Z'
+    timeMax = end.isoformat() + 'Z'
 
     data = {}
 
-    events_result = service.events().list(calenderId=calendarId, timeMin=timeMin, timeMax=timeMax, singleEvents=True,
+    events_result = service.events().list(calendarId=calendarId, timeMin=timeMin, timeMax=timeMax, singleEvents=True,
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
 
@@ -66,6 +66,7 @@ def get_google(calendarId, token_name, start, end):
             en_ret = en_time.hour + en_time.minute / 60.0
             data[st_time.weekday()] += [(st_ret, en_ret)]
         else:
+            # TODO: Beautify this part too
             day = start
 
             if st_time >= day:

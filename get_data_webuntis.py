@@ -28,6 +28,9 @@ def get_webuntis(cred, start, end):
             st = lesson.start.hour + lesson.start.minute / 60.0
             en = lesson.end.hour + lesson.end.minute / 60.0
 
-            data[lesson.start.weekday()] += [(st, en)]
+            if lesson.start.weekday() in data:
+                data[lesson.start.weekday()] += [(st, en)]
+            else:
+                data[lesson.start.weekday()] = [(st, en)]
 
     return data
