@@ -3,16 +3,17 @@ Gathers events and appointment from various calendar apps of multiple persons an
 
 ### Goals:
 * Integrations:
-    * Google ✓
+    * Google Calendar ✓
     * WebUntis ✓
-    * Outlook
+    * Outlook Calendar
     * Apple Calendar
-    * ical
+    * ical, ics
 
 * Picture Creation
-    * Standalone
+    * Standalone ✓
     * Magic Mirror Module
     * epaper compatible
 
 * Misc
     * Telegram Notification/Daily Reminder Bot
+    * Creation of an ics Calendar

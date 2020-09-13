@@ -1,7 +1,10 @@
 # RENAME TO config.py, when using the program!
 
-mates = {
+MATES = {
     "Number One": {
+        "config": {
+            "color": (139, 195, 74)
+        },
         "google": {
             "id": "token1",
             "id": "token1",
@@ -18,11 +21,27 @@ mates = {
         }
     },
     "Number Two": {
+        "config": {
+            "color": (255, 64, 129)
+        },
         "google": {
             "id": "token3"
         }
     },
+    "Number Three": {
+        "config": {
+            "color": (3, 169, 244)
+        },
+        "google": {
+            "id": "token1",
+            "id": "token2",
+            "id": "token3"
+        }
+    },
     "Number Seven": {
+        "config": {
+            "color": (156, 39, 176)
+        },
         "webuntis": {
             "username": "user",
             "password": "pass",
@@ -33,3 +52,14 @@ mates = {
         }
     }
 }
+
+# DRAW PICTURE / APPEARANCE:
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+FONT = './assets/fonts/FiraCode-Medium.ttf'
+FONT_SIZE_HOUR = 10
+FONT_SIZE_DAYS = 12
+FONT_SIZE_NAME = 9
+
+DAYS_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']

@@ -1,6 +1,6 @@
 import datetime
 
-from config import mates
+from config import MATES
 from create_picture import create_picture
 from get_data_google import get_google
 from get_data_webuntis import get_webuntis
@@ -41,22 +41,20 @@ if __name__ == '__main__':
     wd = start.weekday()
     data = {}
 
-    for mate in mates:
+    for name in MATES:
         days = {}
 
         for i in range(wd, wd+5):
             days[i % 7] = []
 
-        if 'google' in mates[mate]:
-            for calendarId in mates[mate]['google']:
-                join_data(days, get_google(calendarId, mates[mate]['google'][calendarId], start, end))
+        if 'google' in MATES[name]:
+            for calendarId in MATES[name]['google']:
+                join_data(days, get_google(calendarId, MATES[name]['google'][calendarId], start, end))
 
-        if 'webuntis' in mates[mate]:
-            join_data(days, get_webuntis(mates[mate]["webuntis"], start, end))
+        if 'webuntis' in MATES[name]:
+            join_data(days, get_webuntis(MATES[name]["webuntis"], start, end))
 
         join_events(days)
-        data[mate] = days
+        data[name] = days
 
-    print(data)
-
-    create_picture()
+    create_picture(data, 500, 800).show()
