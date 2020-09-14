@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from config import *
 
@@ -14,7 +14,7 @@ def get_min_max(data):
                     min = event[0] if event[0] < min else min
                     max = event[1] if event[1] > max else max
 
-    return min, max
+    return int(min), round(max)
 
 
 def _draw_bars(draw, data, user_count, min, max, col_width, row_height):
@@ -94,5 +94,13 @@ def create_picture(data, width, height):
 
     _draw_bars(draw, data, user_count, min, max, col_width, row_height)
     _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height)
+
+    return img
+
+
+def create_picture_magicmirror(data, width, height):
+    img = create_picture(data, width, height)
+    img = img.convert('L')
+    img = ImageOps.invert(img)
 
     return img
