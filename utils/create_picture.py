@@ -40,7 +40,7 @@ def _draw_bars(draw, data, user_count, min, max, col_width, row_height):
         current_user -= 1
 
 
-def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height):
+def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height, line_width=5):
     for row in range(1, rows):
         x1 = 0
         y1 = row_height * row
@@ -52,7 +52,7 @@ def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, ro
 
         hour = str(int(min + row - 1))
 
-        font = ImageFont.truetype(FONT, size=FONT_SIZE_HOUR)
+        font = ImageFont.truetype(FONT, size=FONT_SIZE_NAME)
         w, h = draw.textsize(hour, font=font)
         x = (col_width - w) / 2
         y = row_height * row + (row_height - h) / 2
@@ -67,7 +67,7 @@ def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, ro
             y2 = height
             shape = [(x1, y1), (x2, y2)]
 
-            draw.line(shape, fill=BLACK, width=2)
+            draw.line(shape, fill=BLACK, width=line_width)
 
             weekday = DAYS_FULL[list(data[list(data)[0]])[int((col - 1) / user_count)]]
 
@@ -79,7 +79,41 @@ def _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, ro
             draw.text((x, y), weekday, fill=BLACK, font=font)
 
 
-def create_picture(data, width, height):
+def _draw_names(img, data, user_count, min, max, col_width, row_height):
+    current_user = user_count - 1
+
+    for name in data:
+        current_day = 1
+
+        for day in data[name]:
+            for event in data[name][day]:
+                start = event[0] - min if event[0] - min > 0 else 0
+                end = event[1] - min if event[1] - min < max - min + 1 else max - min + 1
+
+                x1 = col_width * current_day * user_count - current_user * col_width + 1
+                y1 = row_height * (1 + start)
+                x2 = col_width * (user_count * current_day + 1) - current_user * col_width
+                y2 = row_height * (1 + end)
+
+                shape = [(x1, y1), (x2, y2)]
+
+                font = ImageFont.truetype(FONT, size=FONT_SIZE_HOUR)
+                width, height = int(shape[1][1] - shape[0][1]), int(shape[1][0] - shape[0][0])
+
+                txt = Image.new('L', (width, height))
+
+                draw = ImageDraw.Draw(txt)
+                w, h = draw.textsize(name, font=font)
+
+                draw.text(((width - w) / 2, (height - h) / 2), name, font=font, fill=255)
+                rotated = txt.rotate(90, expand=1)
+
+                img.paste(ImageOps.colorize(rotated, WHITE, WHITE), (int(shape[0][0]), int(shape[0][1])), rotated)
+            current_day += 1
+        current_user -= 1
+
+
+def create_picture(data, width, height, line_width=1, names=True):
     img = Image.new('RGB', (width, height), WHITE)
     draw = ImageDraw.Draw(img)
 
@@ -93,14 +127,18 @@ def create_picture(data, width, height):
     row_height = height / rows
 
     _draw_bars(draw, data, user_count, min, max, col_width, row_height)
-    _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height)
+    _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height, line_width)
+
+    if names:
+        _draw_names(img, data, user_count, min, max, col_width, row_height)
 
     return img
 
 
-def create_picture_magicmirror(data, width, height):
-    img = create_picture(data, width, height)
+def create_picture_magicmirror(data, width, height, line_width=1, names=True):
+    img = create_picture(data, width, height, line_width, names)
     img = img.convert('L')
     img = ImageOps.invert(img)
 
     return img
+
