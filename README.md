@@ -31,7 +31,8 @@ Gathers events and appointment from various calendar apps of multiple persons an
 ##### Setup for use with Magic Mirror:
 1. Install https://github.com/roramirez/MMM-ImagesPhotos to /path_to_mm/modules/
 2. In config file of MM:
-    {
+    ```javascript
+   {
         module: "MMM-ImagesPhotos",
         position: "top_left",
         config: {
@@ -40,6 +41,9 @@ Gathers events and appointment from various calendar apps of multiple persons an
             updateInterval: 1500000,
         }
     },
+   ```
 3. Add cronjob:
+    ```shell script
     crontab -e
     */30 5-23 * * * /usr/bin/python /some_path/create_picture.py --mirror --names --path "/path_to_mm/modules/MMM-ImagesPhotos/uploads/time.png"
+    ```
