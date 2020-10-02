@@ -1,7 +1,7 @@
 import datetime
 
 from config import MATES
-from utils.create_picture import create_picture, create_picture_magicmirror
+from utils.create_picture import create_picture, create_picture_magicmirror, create_picture_epaper
 from utils.get_data_google import get_google
 from utils.get_data_webuntis import get_webuntis
 from utils.utils import *
@@ -14,6 +14,7 @@ if __name__ == '__main__':
     parser.add_argument('-ht', '--height', type=int, help='height of the picture', default=800)
     parser.add_argument('-l', '--linewidth', type=int, help='width of the vertical lines', default=2)
     parser.add_argument('-m', '--mirror', action='store_true', help='if the picture should be optimized for a smartmirror')
+    parser.add_argument('-e', '--epaper', action='store_true', help='if the picture should be created as a bitmap (like an epaper would need it e.g.)')
     parser.add_argument('-n', '--names', action='store_true', help='if names should be printed over the bars', default= False)
     parser.add_argument('-s', '--show', action='store_true', help='if the picture should not be stored, but opened')
     parser.add_argument('-d', '--days', type=int, help='days to foresee', default=5)
@@ -48,6 +49,8 @@ if __name__ == '__main__':
 
     if args.mirror:
         img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names)
+    elif args.epaper:
+        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names)
     else:
         img = create_picture(data, args.width, args.height, args.linewidth, args.names)
 

@@ -22,6 +22,7 @@ def get_google(calendarId, token_name, start, end):
             creds = pickle.load(token)
 
     if not creds or not creds.valid:
+        print(f'Verify Google Calendar for profile "{token_name}"')
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:

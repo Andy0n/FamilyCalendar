@@ -1,7 +1,7 @@
 # FamilyCalendar
 Gathers events and appointment from various calendar apps of multiple persons and generates a picture with all of them
 
-![alt text](https://github.com/Andy0n/FamilyCalendar/raw/master/img/time.png "Example Image")
+![Example Image](https://github.com/Andy0n/FamilyCalendar/raw/master/img/time.png "Example Image")
 
 ### Goals:
 * Integrations:
@@ -14,7 +14,7 @@ Gathers events and appointment from various calendar apps of multiple persons an
 * Picture Creation
     * Standalone ✓
     * Magic Mirror Module (✓)
-    * epaper compatible
+    * epaper compatible ✓
 
 * Misc
     * Telegram Notification/Daily Reminder Bot
@@ -50,4 +50,4 @@ Gathers events and appointment from various calendar apps of multiple persons an
     */30 5-23 * * * /usr/bin/python /some_path/create_picture.py --mirror --names --path "/path_to_mm/modules/MMM-ImagesPhotos/uploads/time.png"
     ```
    
-![alt text](https://github.com/Andy0n/FamilyCalendar/raw/master/img/time_mirror.png "Example Mirror Image")
+![Example Mirror Image](https://github.com/Andy0n/FamilyCalendar/raw/master/img/time_mirror.png "Example Mirror Image")

@@ -142,3 +142,10 @@ def create_picture_magicmirror(data, width, height, line_width=1, names=True):
 
     return img
 
+
+def create_picture_epaper(data, width, height, line_width=1, names=True):
+    img = create_picture(data, width, height, line_width, names)
+    img = img.convert('L')
+    img = img.convert('1')
+
+    return img
