@@ -119,7 +119,7 @@ def _draw_events(draw, data, start_height, height, event_count):
     current_y = start_height
 
     for date, event in data.items():
-        text = str(date.strftime("%d.%m.%Y %H:%M:%S")) + "    " + str(event[0])
+        text = str(date.strftime(DATE_FORMAT)) + '     ' + str(event[0])
         w, h = draw.textsize(text, font=font)
 
         x = FONT_SIZE_EVENTS
@@ -128,7 +128,6 @@ def _draw_events(draw, data, start_height, height, event_count):
         draw.text((x, y), text, font=font, fill=BLACK)
 
         current_y += row_height
-        print(text)
 
 
 def create_picture(data, width, height, line_width=1, names=True, events=0, eventsheight=200, event_data=None):

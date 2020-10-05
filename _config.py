@@ -70,4 +70,6 @@ FONT_SIZE_HOUR = 10
 FONT_SIZE_DAYS = 12
 FONT_SIZE_NAME = 9
 
+DATE_FORMAT = "%d.%m.%Y %H:%M"
+
 DAYS_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
