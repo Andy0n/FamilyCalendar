@@ -1,6 +1,8 @@
+import collections
 import datetime
+import itertools
 
-from config import MATES
+from config import MATES, CALS
 from utils.create_picture import create_picture, create_picture_magicmirror, create_picture_epaper
 from utils.get_data_google import get_google
 from utils.get_data_webuntis import get_webuntis
@@ -40,18 +42,23 @@ if __name__ == '__main__':
     end = (start + datetime.timedelta(days=args.days-1)).replace(hour=23, minute=59, second=59)
     wd = start.weekday()
     data = {}
+    data_events = {}
 
     MARGIN_TO_JOIN = args.margin / 60.0
 
     for name in MATES:
         days = {}
 
-        for i in range(wd, wd + args.days):
+        for i in range(wd, wd + 5):
             days[i % 7] = []
 
         if 'google' in MATES[name]:
             for calendarId in MATES[name]['google']:
-                join_data(days, get_google(calendarId, MATES[name]['google'][calendarId], start, end))
+                google_data, event_data = get_google(calendarId, MATES[name]['google'][calendarId], start, end,
+                                                     event_count=args.events)
+                join_data(days, google_data)
+                if calendarId in CALS['google']:
+                    join_data(data_events, event_data)
 
         if 'webuntis' in MATES[name]:
             join_data(days, get_webuntis(MATES[name]["webuntis"], start, end))
@@ -59,14 +66,15 @@ if __name__ == '__main__':
         join_events(days, MARGIN_TO_JOIN)
         data[name] = days
 
+    data_events = dict(itertools.islice(collections.OrderedDict(sorted(data_events.items())).items(), args.events))
     img = None
 
     if args.mirror:
-        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
+        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
     elif args.epaper:
-        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
+        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
     else:
-        img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
+        img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
 
     if args.show:
         img.show()

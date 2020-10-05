@@ -1,9 +1,12 @@
 
 
 def join_data(data, data_to_add):
-    for day in data_to_add:
-        data[day] += data_to_add[day]
-    return data
+    if data_to_add:
+        for day in data_to_add:
+            if day not in data:
+                data[day] = []
+            data[day] += data_to_add[day]
+        return data
 
 
 def merge(events, margin_to_join):

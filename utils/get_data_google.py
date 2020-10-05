@@ -12,7 +12,7 @@ google_date = '&Y-%m-%d'
 google_datetime = '%Y-%m-%dT%H:%M:%S%z'
 
 
-def get_google(calendarId, token_name, start, end):
+def get_google(calendarId, token_name, start, end, event_count=0):
     creds = None
     token_path = f'./tokens/{token_name}.pickle'
     creds_path = './assets/credentials.json'
@@ -38,13 +38,14 @@ def get_google(calendarId, token_name, start, end):
     timeMax = end.isoformat() + 'Z'
 
     data = {}
+    data_events = {}
 
     events_result = service.events().list(calendarId=calendarId, timeMin=timeMin, timeMax=timeMax, singleEvents=True,
                                           orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     if not events:
-        return data
+        return data, None
 
     for event in events:
         if 'description' in event and '#no#' in event['description']:
@@ -61,6 +62,13 @@ def get_google(calendarId, token_name, start, end):
             st_time = datetime.datetime.strptime(st, google_date)
             en_time = datetime.datetime.strptime(en, google_date)
             en_time += datetime.timedelta(minutes=-1)
+
+        if event_count > 0:
+            if 'summary' in event:
+                if st_time not in data_events:
+                    data_events[st_time] = []
+                data_events[st_time] += [event['summary']]
+                event_count -= 1
 
         if st_time.day == en_time.day:
             st_ret = st_time.hour + st_time.minute / 60.0
@@ -98,4 +106,4 @@ def get_google(calendarId, token_name, start, end):
                 else:
                     data[en_time.weekday()] = [(0, en_ret)]
 
-    return data
+    return data, data_events

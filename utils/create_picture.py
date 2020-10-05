@@ -113,7 +113,25 @@ def _draw_names(img, data, user_count, min, max, col_width, row_height):
         current_user -= 1
 
 
-def create_picture(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
+def _draw_events(draw, data, start_height, height, event_count):
+    font = ImageFont.truetype(FONT, size=FONT_SIZE_EVENTS)
+    row_height = height/event_count
+    current_y = start_height
+
+    for date, event in data.items():
+        text = str(date.strftime("%d.%m.%Y %H:%M:%S")) + "    " + str(event[0])
+        w, h = draw.textsize(text, font=font)
+
+        x = FONT_SIZE_EVENTS
+        y = current_y + (row_height-h)/2
+
+        draw.text((x, y), text, font=font, fill=BLACK)
+
+        current_y += row_height
+        print(text)
+
+
+def create_picture(data, width, height, line_width=1, names=True, events=0, eventsheight=200, event_data=None):
     img = Image.new('RGB', (width, height), WHITE)
     draw = ImageDraw.Draw(img)
 
@@ -131,22 +149,25 @@ def create_picture(data, width, height, line_width=1, names=True, events=0, even
     _draw_bars(draw, data, user_count, min, max, col_width, row_height)
     _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, grid_height, line_width)
 
+    if events != 0:
+        _draw_events(draw, event_data, grid_height, eventsheight, events)
+
     if names:
         _draw_names(img, data, user_count, min, max, col_width, row_height)
 
     return img
 
 
-def create_picture_magicmirror(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
-    img = create_picture(data, width, height, line_width, names, events, eventsheight)
+def create_picture_magicmirror(data, width, height, line_width=1, names=True, events=0, eventsheight=200, event_data=None):
+    img = create_picture(data, width, height, line_width, names, events, eventsheight, event_data)
     img = img.convert('L')
     img = ImageOps.invert(img)
 
     return img
 
 
-def create_picture_epaper(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
-    img = create_picture(data, width, height, line_width, names, events, eventsheight)
+def create_picture_epaper(data, width, height, line_width=1, names=True, events=0, eventsheight=200, event_data=None):
+    img = create_picture(data, width, height, line_width, names, events, eventsheight, event_data)
     img = img.convert('L')
     img = img.convert('1')
 

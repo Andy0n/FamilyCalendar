@@ -53,8 +53,16 @@ MATES = {
     }
 }
 
-# DRAW PICTURE / APPEARANCE:
+# CALENDARS FOR THE EVENT LIST:
+CALS = {
+    "google": {
+        "id": "token1",
+        "id": "token2",
+        "id": "token3"
+    }
+}
 
+# DRAW PICTURE / APPEARANCE:
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 FONT = './assets/fonts/FiraCode-Medium.ttf'
