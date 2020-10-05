@@ -113,7 +113,7 @@ def _draw_names(img, data, user_count, min, max, col_width, row_height):
         current_user -= 1
 
 
-def create_picture(data, width, height, line_width=1, names=True):
+def create_picture(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
     img = Image.new('RGB', (width, height), WHITE)
     draw = ImageDraw.Draw(img)
 
@@ -123,11 +123,13 @@ def create_picture(data, width, height, line_width=1, names=True):
     cols = user_count * 5 + 1
     rows = round((max - min + 1) + 1)
 
+    grid_height = height if events == 0 else height-eventsheight
+
     col_width = width / cols
-    row_height = height / rows
+    row_height = grid_height / rows
 
     _draw_bars(draw, data, user_count, min, max, col_width, row_height)
-    _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, height, line_width)
+    _draw_grid(draw, data, user_count, min, max, col_width, row_height, cols, rows, width, grid_height, line_width)
 
     if names:
         _draw_names(img, data, user_count, min, max, col_width, row_height)
@@ -135,16 +137,16 @@ def create_picture(data, width, height, line_width=1, names=True):
     return img
 
 
-def create_picture_magicmirror(data, width, height, line_width=1, names=True):
-    img = create_picture(data, width, height, line_width, names)
+def create_picture_magicmirror(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
+    img = create_picture(data, width, height, line_width, names, events, eventsheight)
     img = img.convert('L')
     img = ImageOps.invert(img)
 
     return img
 
 
-def create_picture_epaper(data, width, height, line_width=1, names=True):
-    img = create_picture(data, width, height, line_width, names)
+def create_picture_epaper(data, width, height, line_width=1, names=True, events=0, eventsheight=200):
+    img = create_picture(data, width, height, line_width, names, events, eventsheight)
     img = img.convert('L')
     img = img.convert('1')
 

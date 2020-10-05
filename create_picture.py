@@ -10,16 +10,30 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser('Create a timetable picture')
-    parser.add_argument('-wd', '--width', type=int, help='width of the picture', default=500)
-    parser.add_argument('-ht', '--height', type=int, help='height of the picture', default=800)
-    parser.add_argument('-l', '--linewidth', type=int, help='width of the vertical lines', default=2)
-    parser.add_argument('-m', '--mirror', action='store_true', help='if the picture should be optimized for a smartmirror')
-    parser.add_argument('-e', '--epaper', action='store_true', help='if the picture should be created as a bitmap (like an epaper would need it e.g.)')
-    parser.add_argument('-n', '--names', action='store_true', help='if names should be printed over the bars', default= False)
-    parser.add_argument('-s', '--show', action='store_true', help='if the picture should not be stored, but opened')
-    parser.add_argument('-d', '--days', type=int, help='days to foresee', default=5)
-    parser.add_argument('-p', '--path', type=str, help='path+filename where the picture should be saved', default='./time.png')
-    parser.add_argument('-mr', '--margin', type=int, help='max minutes between events that should be joined', default=15)
+    parser.add_argument('-wd', '--width', type=int, default=500,
+                        help='width of the picture')
+    parser.add_argument('-ht', '--height', type=int, default=800,
+                        help='height of the picture')
+    parser.add_argument('-l', '--linewidth', type=int, default=2,
+                        help='width of the vertical lines')
+    parser.add_argument('-m', '--mirror', action='store_true',
+                        help='if the picture should be optimized for a smartmirror')
+    parser.add_argument('-b', '--bitmap', action='store_true',
+                        help='if the picture should be created as a bitmap (like an epaper would need it e.g.)')
+    parser.add_argument('-n', '--names', action='store_true', default=False,
+                        help='if names should be printed over the bars')
+    parser.add_argument('-s', '--show', action='store_true',
+                        help='if the picture should not be stored, but opened')
+    parser.add_argument('-e', '--events', type=int, default=0,
+                        help='how many events should be displayed below')
+    parser.add_argument('-he', '--eventsheight', type=int, default=200,
+                        help='the height of the section for the events, if they are displayed')
+    parser.add_argument('-d', '--days', type=int, default=5,
+                        help='days to foresee')
+    parser.add_argument('-p', '--path', type=str, default='./time.png',
+                        help='path+filename where the picture should be saved')
+    parser.add_argument('-mr', '--margin', type=int, default=15,
+                        help='max minutes between events that should be joined')
     args = parser.parse_args()
 
     start = datetime.datetime.utcnow().today().replace(hour=0, minute=0, second=0)
@@ -48,11 +62,11 @@ if __name__ == '__main__':
     img = None
 
     if args.mirror:
-        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names)
+        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
     elif args.epaper:
-        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names)
+        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
     else:
-        img = create_picture(data, args.width, args.height, args.linewidth, args.names)
+        img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight)
 
     if args.show:
         img.show()

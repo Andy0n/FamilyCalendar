@@ -32,4 +32,4 @@ if __name__ == '__main__':
         data[name] = days
 
     # create_picture(data, 500, 800).show()
-    create_picture_magicmirror(data, 500, 800).show()
+    create_picture_magicmirror(data, 500, 800, events=5).show()
