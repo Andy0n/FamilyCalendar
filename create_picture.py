@@ -20,7 +20,7 @@ if __name__ == '__main__':
                         help='width of the vertical lines')
     parser.add_argument('-m', '--mirror', action='store_true',
                         help='if the picture should be optimized for a smartmirror')
-    parser.add_argument('-b', '--bitmap', action='store_true',
+    parser.add_argument('-b', '--bitmap', '--epaper', action='store_true',
                         help='if the picture should be created as a bitmap (like an epaper would need it e.g.)')
     parser.add_argument('-n', '--names', action='store_true', default=False,
                         help='if names should be printed over the bars')
@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     if args.mirror:
         img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
-    elif args.epaper:
+    elif args.bitmap:
         img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
     else:
         img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
