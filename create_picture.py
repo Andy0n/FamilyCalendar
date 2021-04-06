@@ -39,7 +39,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     start = datetime.datetime.utcnow().today().replace(hour=0, minute=0, second=0)
-    end = (start + datetime.timedelta(days=args.days-1)).replace(hour=23, minute=59, second=59)
+    end = (start + datetime.timedelta(days=4)).replace(hour=23, minute=59, second=59)
+    end_e = (start + datetime.timedelta(days=args.days-1)).replace(hour=23, minute=59, second=59)
     wd = start.weekday()
     data = {}
     data_events = {}
@@ -54,10 +55,13 @@ if __name__ == '__main__':
 
         if 'google' in MATES[name]:
             for calendarId in MATES[name]['google']:
-                google_data, event_data = get_google(calendarId, MATES[name]['google'][calendarId], start, end,
+                google_data, null = get_google(calendarId, MATES[name]['google'][calendarId], start, end,
                                                      event_count=args.events)
+
                 join_data(days, google_data)
                 if calendarId in CALS['google']:
+                    null, event_data = get_google(calendarId, MATES[name]['google'][calendarId], start, end_e,
+                                                  event_count=args.events)
                     join_data(data_events, event_data)
 
         if 'webuntis' in MATES[name]:
@@ -68,6 +72,8 @@ if __name__ == '__main__':
 
     data_events = dict(itertools.islice(collections.OrderedDict(sorted(data_events.items())).items(), args.events))
     img = None
+
+    print(data)
 
     if args.mirror:
         img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
