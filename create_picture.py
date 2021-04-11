@@ -6,6 +6,7 @@ from config import MATES, CALS
 from utils.create_picture import create_picture, create_picture_magicmirror, create_picture_epaper
 from utils.get_data_google import get_google
 from utils.get_data_webuntis import get_webuntis
+from utils.get_data_ics import get_icalendar
 from utils.utils import *
 
 if __name__ == '__main__':
@@ -40,7 +41,7 @@ if __name__ == '__main__':
 
     start = datetime.datetime.utcnow().today().replace(hour=0, minute=0, second=0)
     end = (start + datetime.timedelta(days=4)).replace(hour=23, minute=59, second=59)
-    end_e = (start + datetime.timedelta(days=args.days-1)).replace(hour=23, minute=59, second=59)
+    end_e = (start + datetime.timedelta(days=args.days - 1)).replace(hour=23, minute=59, second=59)
     wd = start.weekday()
     data = {}
     data_events = {}
@@ -56,7 +57,7 @@ if __name__ == '__main__':
         if 'google' in MATES[name]:
             for calendarId in MATES[name]['google']:
                 google_data, null = get_google(calendarId, MATES[name]['google'][calendarId], start, end,
-                                                     event_count=args.events)
+                                               event_count=args.events)
 
                 join_data(days, google_data)
                 if calendarId in CALS['google']:
@@ -67,6 +68,14 @@ if __name__ == '__main__':
         if 'webuntis' in MATES[name]:
             join_data(days, get_webuntis(MATES[name]["webuntis"], start, end))
 
+        if 'ics' in MATES[name]:
+            for url in MATES[name]['ics']:
+                ics_data, event_data = get_icalendar(url, start, end, args.events)
+                join_data(days, ics_data)
+
+                if url in CALS['ics']:
+                    join_data(data_events, event_data)
+
         join_events(days, MARGIN_TO_JOIN)
         data[name] = days
 
@@ -74,11 +83,14 @@ if __name__ == '__main__':
     img = None
 
     if args.mirror:
-        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
+        img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events,
+                                         args.eventsheight, data_events)
     elif args.bitmap:
-        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
+        img = create_picture_epaper(data, args.width, args.height, args.linewidth, args.names, args.events,
+                                    args.eventsheight, data_events)
     else:
-        img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
+        img = create_picture(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight,
+                             data_events)
 
     if args.show:
         img.show()

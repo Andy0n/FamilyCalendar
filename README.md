@@ -9,7 +9,7 @@ Gathers events and appointment from various calendar apps of multiple persons an
     * WebUntis ✓
     * Outlook Calendar
     * Apple Calendar
-    * ical, ics
+    * ical, ics ✓
 
 * Picture Creation
     * Standalone ✓

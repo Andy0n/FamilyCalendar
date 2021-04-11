@@ -18,6 +18,10 @@ MATES = {
             "useragent": "WebUntis Test",
             "surname": "One",
             "fore_name": "Number"
+        },
+        "ics": {
+            "url1",
+            "url2"
         }
     },
     "Number Two": {
@@ -59,6 +63,10 @@ CALS = {
         "id": "token1",
         "id": "token2",
         "id": "token3"
+    },
+    "ics": {
+        "url1",
+        "url2"
     }
 }
 
