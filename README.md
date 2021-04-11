@@ -13,7 +13,7 @@ Gathers events and appointment from various calendar apps of multiple persons an
 
 * Picture Creation
     * Standalone ✓
-    * Magic Mirror Module (✓)
+    * Magic Mirror Module ✓ (Seperate Repository)
     * epaper compatible ✓
 
 * Misc
