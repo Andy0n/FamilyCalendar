@@ -1,6 +1,7 @@
 import datetime
 import os.path
 import pickle
+import pytz
 
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -8,8 +9,9 @@ from googleapiclient.discovery import build
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
-google_date = '&Y-%m-%d'
+google_date = '%Y-%m-%d'
 google_datetime = '%Y-%m-%dT%H:%M:%S%z'
+utc = pytz.utc
 
 
 def get_google(calendarId, token_name, start, end, event_count=0):
@@ -59,9 +61,9 @@ def get_google(calendarId, token_name, start, end, event_count=0):
             st_time = datetime.datetime.strptime(st[:-3] + st[-2:], google_datetime)
             en_time = datetime.datetime.strptime(en[:-3] + en[-2:], google_datetime)
         else:
-            st_time = datetime.datetime.strptime(st, google_date)
+            st_time = datetime.datetime.strptime(st, google_date).replace(tzinfo=utc)
             en_time = datetime.datetime.strptime(en, google_date)
-            en_time += datetime.timedelta(minutes=-1)
+            en_time = (en_time + datetime.timedelta(minutes=-1)).replace(tzinfo=utc)
 
         if event_count > 0:
             if 'summary' in event:

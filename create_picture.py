@@ -73,8 +73,6 @@ if __name__ == '__main__':
     data_events = dict(itertools.islice(collections.OrderedDict(sorted(data_events.items())).items(), args.events))
     img = None
 
-    print(data)
-
     if args.mirror:
         img = create_picture_magicmirror(data, args.width, args.height, args.linewidth, args.names, args.events, args.eventsheight, data_events)
     elif args.bitmap:
