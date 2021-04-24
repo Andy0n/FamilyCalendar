@@ -28,6 +28,9 @@ Gathers events and appointment from various calendar apps of multiple persons an
     1. Go to https://console.cloud.google.com
     2. Create Project, add Calendar API and download the credentials.json
     3. copy it to ./assets/credentials.json
+    4. To generate the tokens for the specific calendars you must run this application in an environment with a GUI-enabled browser. 
+    5. Follow the instructions in the CLI.
+    6. If you want to use this program on another device, you can copy the tokens and assets folder there.
 5. finish
 
 ##### Setup for use with Magic Mirror:
