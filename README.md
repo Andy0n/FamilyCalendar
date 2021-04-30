@@ -1,5 +1,5 @@
 # FamilyCalendar
-Gathers events and appointment from various calendar apps of multiple persons and generates a picture with all of them
+Gathers events and appointments from various calendar apps of multiple people and thus generates a perfect synchronized time table for the whole family.
 
 ![Example Image](https://github.com/Andy0n/FamilyCalendar/raw/master/img/time.png "Example Image")
 
