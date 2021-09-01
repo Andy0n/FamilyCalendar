@@ -16,8 +16,8 @@ utc = pytz.utc
 
 def get_google(calendarId, token_name, start, end, event_count=0):
     creds = None
-    token_path = f'./tokens/{token_name}.pickle'
-    creds_path = './assets/credentials.json'
+    token_path = f'./tokens/{token_name}.pickle' # If this path doesn't work, try the absolute path
+    creds_path = './assets/credentials.json'     # If this path doesn't work, try the absolute path
 
     if os.path.exists(token_path):
         with open(token_path, 'rb') as token:
@@ -84,7 +84,7 @@ def get_google(calendarId, token_name, start, end, event_count=0):
             # TODO: Beautify this part too
             day = start
 
-            if st_time >= day:
+            if st_time >= utc.localize(day):
                 day = st_time
 
             i = 0
